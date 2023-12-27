@@ -40,12 +40,20 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
-  printf("%s\n",args);
-  int n = atoi(args);
+  //printf("%s\n",args);
+  char* arg = strtok(args, " ");
+  int n = atoi(arg);
+  if(strtok(NULL, " ") != NULL){
+  	printf("too much arguments\n");
+  }
   if(n > 0){
   	cpu_exec(n);
   }
   return 0;
+}
+
+static int cmd_info(char *args){
+	return 0;
 }
 
 static struct {
@@ -57,6 +65,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Step into", cmd_si},
+  { "info", "print register or watchpoint", cmd_info},
   /* TODO: Add more commands */
 
 };

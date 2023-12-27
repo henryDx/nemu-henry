@@ -41,6 +41,10 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args){
   printf("%s\n",args);
+  int n = atoi(args);
+  if(n > 0){
+  	cpu_exec(n);
+  }
   return 0;
 }
 

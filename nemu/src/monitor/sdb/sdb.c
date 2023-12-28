@@ -53,7 +53,19 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-	isa_reg_display();
+	char *opt = strtok(args, "");
+	if(strtok(NULL, " ") != NULL){
+		printf("too much arguments\n");
+	}
+	if(!strcmp(opt, "r")){
+		isa_reg_display();
+	}
+	else if(!strcmp(opt, "w")){
+	
+	}
+	else{
+		printf("unknown arguments\n");
+	}
 	return 0;
 }
 

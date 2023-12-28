@@ -88,9 +88,9 @@ static int cmd_x(char * args){
 	vaddr_t vaddr_ori = vaddr;
         while(vaddr < vaddr_ori+n){
 		printf("%-16lx:", vaddr);
-		for(int j=0;j<8&&vaddr<vaddr_ori+n;j++){
-			printf("%d\n", (int)vaddr_read(vaddr,2));
-			vaddr+=2;
+		for(int j=0;j<4&&vaddr<vaddr_ori+n;j++){
+			printf("%2lx\n", vaddr_read(vaddr,1));
+			vaddr+=1;
 		}
 		printf("\n");
 	}

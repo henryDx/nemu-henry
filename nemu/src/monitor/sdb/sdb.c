@@ -80,8 +80,9 @@ static int cmd_x(char * args){
 		printf("read argument failed!\n");
 		return 0;
 	}
+
 	vaddr_t vaddr_ori = vaddr;
-        for(int i=0; i<(n/16); i++){
+        for(int i=0; i<=(n/16); i++){
 		printf("%-16lx:", vaddr);
 		for(int j=0;j<8&&vaddr<vaddr_ori+n;j++){
 			vaddr_read(vaddr,2);

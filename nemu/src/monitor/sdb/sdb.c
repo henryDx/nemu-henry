@@ -74,21 +74,12 @@ static int cmd_info(char *args){
 }
 
 static int cmd_x(char * args){
-        char *arg = strtok(NULL, "");
-        //printf("%s\n", arg);
-        if(arg == NULL){
-                printf("no arguments\n");
-                return 0;
-        }
-	int n = atoi(arg);
-	n = (n>0)?n:1;
-	char *expr = strtok(NULL, "");
-	if(expr == NULL){
-		printf("invalid arguments\n");
+        int n=0;
+	vaddr_t vaddr = 0;
+	if(sscanf(args, "%d %lx",&n, &vaddr)<2){
+		printf("read argument failed!\n");
 		return 0;
 	}
-	vaddr_t vaddr = 0;
-	sscanf(expr, "%lx", &vaddr);
 	vaddr_t vaddr_ori = vaddr;
         for(int i=0; i<(n/16); i++){
 		printf("%-16lx:", vaddr);

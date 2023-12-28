@@ -53,14 +53,15 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-	char *opt = strtok(args, "");
-	if(strtok(NULL, " ") != NULL){
-		printf("too much arguments\n");
+	char *arg = strtok(NULL, "");
+	if(arg == NULL){
+		printf("no arguments\n");
+		return 0;
 	}
-	if(!strcmp(opt, "r")){
+	if(!strcmp(arg, "r")){
 		isa_reg_display();
 	}
-	else if(!strcmp(opt, "w")){
+	else if(!strcmp(arg, "w")){
 	
 	}
 	else{

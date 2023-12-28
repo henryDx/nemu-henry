@@ -82,12 +82,13 @@ static int cmd_x(char * args){
 	}
 
 	vaddr_t vaddr_ori = vaddr;
-        for(int i=0; i<=(n/16); i++){
+        while(vaddr < vaddr_ori+n){
 		printf("%-16lx:", vaddr);
 		for(int j=0;j<8&&vaddr<vaddr_ori+n;j++){
 			vaddr_read(vaddr,2);
 			vaddr+=2;
 		}
+		printf("\n");
 	}
 	return 0;
 	

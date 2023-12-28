@@ -12,7 +12,7 @@ void isa_reg_display() {
 	//printf("isa_reg_display\n");
         for(int idx=0; idx<32; idx++){
                 const char *reg = regs[check_reg_idx(idx)];
-                printf("%16s  %16lx  %16ld\n", reg, gpr(idx), gpr(idx));
+                printf("%-16s%-16lx%-16ld\n", reg, gpr(idx), gpr(idx));
         }
 
 }

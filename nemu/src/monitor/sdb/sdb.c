@@ -80,7 +80,7 @@ static int cmd_x(char * args){
 		printf("read argument failed!\n");
 		return 0;
 	}
-
+        printf("%d %lx\n",n,vaddr);
 	vaddr_t vaddr_ori = vaddr;
         while(vaddr < vaddr_ori+n){
 		printf("%-16lx:", vaddr);

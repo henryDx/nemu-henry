@@ -60,7 +60,7 @@ static int cmd_info(char *args){
 		return 0;
 	}
 	if(!strcmp(arg, "r")){
-		printf("is r\n");
+		//printf("is r\n");
 		isa_reg_display();
 	}
 	else if(!strcmp(arg, "w")){

@@ -98,6 +98,15 @@ static int cmd_x(char * args){
 	
 }
 
+static int cmd_p(char* args){
+	bool ret = false;
+	expr(args, &ret);
+	if(!ret){
+		printf("evalue failed!\n");
+	}
+	return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -109,6 +118,7 @@ static struct {
   { "si", "Step into", cmd_si},
   { "info", "print register or watchpoint", cmd_info},
   { "x", "display tge value of memory", cmd_x},
+  { "p", "evalue expression", cmd_p},
   /* TODO: Add more commands */
 
 };

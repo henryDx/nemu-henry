@@ -24,7 +24,7 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
-  {"0(x|X)(\\d|[a-f]|[A-F])+", TK_HEX},
+  {"0[xX][0-9a-fA-F]+", TK_HEX},
   {"\\d+", TK_D},
   {"(\\$0)|(ra)|((s|g|t)p)|(t[0-2])|(s[0-1])|(a[0-7])|(s([2-9]|10|11))|(t[3-6])", TK_REG},
   {"\\*", '*'},

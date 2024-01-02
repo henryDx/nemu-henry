@@ -26,7 +26,7 @@ static struct rule {
   {"==", TK_EQ},        // equal
   {"0[xX][0-9a-fA-F]+", TK_HEX},
   {"[0-9]+", TK_D},
-  {"(\\$0)|(ra)|((s|g|t)p)|(t[0-2])|(s[0-1])|(a[0-7])|(s([2-9]|10|11))|(t[3-6])", TK_REG},
+  {"\\$(\\$0)|(ra)|((s|g|t)p)|(t[0-2])|(s[0-1])|(a[0-7])|(s([2-9]|10|11))|(t[3-6])", TK_REG},
   {"\\*", '*'},
   {"\\/", '/'},
   {"\\-", '-' },
@@ -104,7 +104,7 @@ static bool make_token(char *e) {
 			       strncpy(tokens[nr_token].str, substr_start, substr_len);
 			       //printf("index:%d token type:%d, token str:%s \n",nr_token ,tokens[nr_token].type, tokens[nr_token].str);
 			       bool success = false;
-			       int reg_val = isa_reg_str2val(tokens[nr_token].str, &success);
+			       int reg_val = isa_reg_str2val(tokens[nr_token].str+1, &success);
 			       if(!success){
 			       	break;
 			       }

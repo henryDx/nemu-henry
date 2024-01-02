@@ -101,10 +101,10 @@ static bool make_token(char *e) {
 			       break;
 			       
 		case TK_REG:
-			       strncpy(tokens[nr_token].str, substr_start, substr_len);
-			       //printf("index:%d token type:%d, token str:%s \n",nr_token ,tokens[nr_token].type, tokens[nr_token].str);
+			       strncpy(tokens[nr_token].str, substr_start+1, substr_len-1);
+			       printf("index:%d token type:%d, token str:%s \n",nr_token ,tokens[nr_token].type, tokens[nr_token].str);
 			       bool success = false;
-			       int reg_val = isa_reg_str2val(tokens[nr_token].str+1, &success);
+			       int reg_val = isa_reg_str2val(tokens[nr_token].str, &success);
 			       if(!success){
 			       	break;
 			       }

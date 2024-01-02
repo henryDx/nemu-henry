@@ -86,11 +86,33 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
+	
         switch (rules[i].token_type) {
-          default: TODO();
+		case TK_NOTYPE:break;
+		case TK_HEX:;
+			       int val = 0;
+			       strncpy(tokens[nr_token].str, substr_start, substr_len);
+			       sscanf(tokens[nr_token].str, "%x", &val);
+			       sprintf(tokens[nr_token].str, "%d", val);
+			       tokens[nr_token].type = TK_D;
+			       nr_token++;
+			       break;
+			       
+		case TK_REG:
+			       strncpy(tokens[nr_token].str, substr_start, substr_len);
+			       bool success = false;
+			       int reg_val = isa_reg_str2val(tokens[nr_token].str, &success);
+			       if(!success){
+			       	break;
+			       }
+                               sprintf(tokens[nr_token].str, "%d", reg_val);
+			       tokens[nr_token].type = TK_D;
+			       nr_token++;
+			       break;
+		default: tokens[nr_token].type = rules[i].token_type;
+			 strncpy(tokens[nr_token].str, substr_start, substr_len);
+			 nr_token++;
         }
-
         break;
       }
     }
@@ -110,9 +132,11 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
+  for(int i = 0; i < nr_token;i++){
+  	printf("token type:%d, token str:%s \n",tokens[i].type, tokens[i].str);
+  }
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  //TODO();
 
   return 0;
 }

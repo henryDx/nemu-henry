@@ -18,5 +18,15 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+  	for(int idx=0; idx<32; idx++){
+                const char *reg = regs[check_reg_idx(idx)];
+                if(!strcmp(reg, s)){
+			return gpr(idx);
+			*success=true;
+		}
+        }
+	*success = false;
+	printf("invalid register name:%s !\n", s);
+	return 0;
+
 }

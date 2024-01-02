@@ -30,6 +30,8 @@ static struct rule {
   {"\\*", '*'},
   {"\\/", '/'},
   {"\\-", '-' },
+  {"\\(", '('},
+  {"\\)", ')'},
   {"[A-Za-z]\\w*", TK_VAR},
 };
 
@@ -100,7 +102,7 @@ static bool make_token(char *e) {
 			       
 		case TK_REG:
 			       strncpy(tokens[nr_token].str, substr_start, substr_len);
-			       printf("index:%d token type:%d, token str:%s \n",nr_token ,tokens[nr_token].type, tokens[nr_token].str);
+			       //printf("index:%d token type:%d, token str:%s \n",nr_token ,tokens[nr_token].type, tokens[nr_token].str);
 			       bool success = false;
 			       int reg_val = isa_reg_str2val(tokens[nr_token].str, &success);
 			       if(!success){
@@ -133,11 +135,12 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  for(int i = 0; i < nr_token;i++){
+  /*for(int i = 0; i < nr_token;i++){
   	printf("index:%d token type:%d, token str:%s \n",i ,tokens[i].type, tokens[i].str);
-  }
+  }*/
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
+
 
   return 0;
 }

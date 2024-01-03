@@ -169,24 +169,22 @@ int get_ref(int addr){
 	return 0;
 }
 
-bool check_parentheses(int p, int q, bool* success){
+bool check_parentheses(int p, int q){
 	if(tokens[p].type!='(' || tokens[q].type!=')'){
 		return false;
 	}
 	int left_cnt=0;
-	for(int i=p;i<=q;i++){
+	for(int i=p+1;i<=q-1;i++){
 		if(tokens[i].type == '('){
 			left_cnt++;
 		}
 		else if(tokens[i].type == ')'){
 			left_cnt--;
 			if(left_cnt<0){
-				*success = false;
 				return false;
 			}
 		}
 	}
-	*success = !left_cnt; 
 	return !left_cnt;
 }
 
@@ -230,7 +228,7 @@ int eval(int p, int q, bool* success){
 		assert(tokens[p].type == TK_D);
 		return atoi(tokens[p].str);
 	}
-	else if(check_parentheses(p, q, success) == true){
+	else if(check_parentheses(p, q) == true){
 		return eval(p+1, q-1, success);
 	}
 	else{

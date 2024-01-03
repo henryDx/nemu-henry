@@ -212,6 +212,7 @@ int eval(int p, int q, bool* success){
 		int t = q;
 		int mid = -1;
 		while(t>p){
+			printf("type:%d\n",tokens[t].type);
 			switch(tokens[t].type){
 				case ')':right_cnt++;
 					 printf("right++\n");

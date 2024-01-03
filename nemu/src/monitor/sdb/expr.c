@@ -214,8 +214,10 @@ int eval(int p, int q, bool* success){
 		while(t>p){
 			switch(tokens[t].type){
 				case ')':right_cnt++;
+					 printf("right++\n");
 					 break;
 				case '(':right_cnt--;
+					 printf("right--\n");
 					 if(right_cnt<0){
 					 	assert(0);
 					 }

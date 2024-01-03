@@ -147,9 +147,9 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  for(int i = 0; i < nr_token;i++){
+/*  for(int i = 0; i < nr_token;i++){
   	printf("index:%d token type:%d, token str:%s \n",i ,tokens[i].type, tokens[i].str);
-  }
+  }*/
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 

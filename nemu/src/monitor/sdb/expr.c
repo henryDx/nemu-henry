@@ -264,7 +264,7 @@ int eval(int p, int q, bool* success){
 			t--;
 		}
 		if(mid == -1 && tokens[p].type == TK_REF){
-			return get_ref(eval(p-1,q,success));
+			return get_ref(eval(p+1,q,success));
 		}
 		else if(mid != -1){
 			switch(tokens[mid].type){

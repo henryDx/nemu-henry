@@ -154,7 +154,10 @@ word_t expr(char *e, bool *success) {
   //TODO();
 
   *success = true;
-  return eval(0, nr_token-1, success);
+  int res = eval(0, nr_token-1, success);
+  printf("res:%d\n",res);
+  return res;
+
 }
 
 bool is_op(int type){

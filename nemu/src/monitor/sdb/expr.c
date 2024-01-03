@@ -226,6 +226,7 @@ int eval(int p, int q, bool* success){
 	}
 	else if(p == q){
 		assert(tokens[p].type == TK_D);
+		printf("val:%d\n",atoi(tokens[p].str));
 		return atoi(tokens[p].str);
 	}
 	else if(check_parentheses(p, q) == true){

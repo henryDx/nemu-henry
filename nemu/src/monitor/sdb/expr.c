@@ -170,7 +170,7 @@ int get_ref(int addr){
 }
 
 bool check_parentheses(int p, int q, bool* success){
-	if(tokens[p].type!='(' && tokens[q].type!=')'){
+	if(tokens[p].type!='(' || tokens[q].type!=')'){
 		return false;
 	}
 	int left_cnt=0;

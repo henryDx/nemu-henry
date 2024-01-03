@@ -13,7 +13,7 @@ enum {
 };
 
 bool is_op(int type);
-int eval(int p, int q);
+int eval(int p, int q, bool *success);
 int get_ref(int addr);
 
 static struct rule {
@@ -153,8 +153,8 @@ word_t expr(char *e, bool *success) {
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 
-
-  return 0;
+  *success = true;
+  return eval(0, nr_token-1, success);
 }
 
 bool is_op(int type){
@@ -165,7 +165,7 @@ int get_ref(int addr){
 	return 0;
 }
 
-bool check_parentheses(int p, int q){
+bool check_parentheses(int p, int q, bool* success){
 	if(tokens[p].type!='(' && tokens[q].type!=')'){
 		return false;
 	}
@@ -177,14 +177,21 @@ bool check_parentheses(int p, int q){
 		else if(tokens[i].type == ')'){
 			left_cnt--;
 			if(left_cnt<0){
+				*success = false;
 				return false;
 			}
 		}
 	}
+	*success = !left_cnt; 
 	return !left_cnt;
 }
 
-int eval(int p, int q){
+int eval(int p, int q, bool* success){
+	if(!success){
+		printf("error happend before, abort!");
+		return 0;
+	}
+
 	if(p>q){
 		assert(0);
 		return 0;
@@ -193,8 +200,8 @@ int eval(int p, int q){
 		assert(tokens[p].type == TK_D);
 		return atoi(tokens[p].str);
 	}
-	else if(check_parentheses(p, q) == true){
-		return eval(p+1, q-1);
+	else if(check_parentheses(p, q, success) == true){
+		return eval(p+1, q-1, success);
 	}
 	else{
 		int right_cnt = 0;
@@ -224,20 +231,23 @@ int eval(int p, int q){
 			t--;
 		}
 		if(mid == -1 && tokens[p].type == TK_REF){
-			return get_ref(eval(p-1,q));
+			return get_ref(eval(p-1,q,success));
 		}
 		else if(mid != -1){
 			switch(tokens[mid].type){
-				case '+':return eval(p, mid-1)+eval(mid+1,q);
-				case '-':return eval(p, mid-1)-eval(mid+1,q);
-				case '*':return eval(p, mid-1)*eval(mid+1,q);
+				case '+':return eval(p, mid-1, success)+eval(mid+1,q,success);
+				case '-':return eval(p, mid-1, success)-eval(mid+1,q,success);
+				case '*':return eval(p, mid-1, success)*eval(mid+1,q,success);
 				case '/':;
-					 int div = eval(mid+1,q);
-					 assert(div);
-					 return eval(p, mid-1)/div;
+					 int div = eval(mid+1,q,success);
+					 if(div!=0){
+					 	return eval(p, mid-1,success)/div;
+					 }
+					 printf("divide 0 error!");
 				default:;
 			}
 		}
+		*success = false;
 		printf("gramma error!");
 		return 0;
 

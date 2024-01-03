@@ -6,11 +6,15 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_HEX, TK_D, TK_REG, TK_VAR,
+  TK_NOTYPE = 256, TK_EQ, TK_HEX, TK_D, TK_REG, TK_VAR, TK_REF,
 
   /* TODO: Add more token types */
 
 };
+
+bool is_op(int type);
+int eval(int p, int q);
+int get_ref(int addr);
 
 static struct rule {
   const char *regex;
@@ -112,6 +116,14 @@ static bool make_token(char *e) {
 			       tokens[nr_token].type = TK_D;
 			       nr_token++;
 			       break;
+		case '*': if(nr_token-1<0 || is_op(tokens[nr_token-1].type) || tokens[nr_token-1].type == '('){
+			  		tokens[nr_token].type = TK_REF;
+			  }
+			  else{
+			  	tokens[nr_token].type = '*';     
+			  }
+			  nr_token++;
+			  break;
 		default: tokens[nr_token].type = rules[i].token_type;
 			 strncpy(tokens[nr_token].str, substr_start, substr_len);
 			 nr_token++;
@@ -143,4 +155,92 @@ word_t expr(char *e, bool *success) {
 
 
   return 0;
+}
+
+bool is_op(int type){
+	return type == '+'||type == '-' || type == '/' || type == '*';
+}
+
+int get_ref(int addr){
+	return 0;
+}
+
+bool check_parentheses(int p, int q){
+	if(tokens[p].type!='(' && tokens[q].type!=')'){
+		return false;
+	}
+	int left_cnt=0;
+	for(int i=p;i<=q;i++){
+		if(tokens[i].type == '('){
+			left_cnt++;
+		}
+		else if(tokens[i].type == ')'){
+			left_cnt--;
+			if(left_cnt<0){
+				return false;
+			}
+		}
+	}
+	return !left_cnt;
+}
+
+int eval(int p, int q){
+	if(p>q){
+		assert(0);
+		return 0;
+	}
+	else if(p == q){
+		assert(tokens[p].type == TK_D);
+		return atoi(tokens[p].str);
+	}
+	else if(check_parentheses(p, q) == true){
+		return eval(p+1, q-1);
+	}
+	else{
+		int right_cnt = 0;
+		int t = q;
+		int mid = -1;
+		while(t>p){
+			switch(tokens[t].type){
+				case ')':right_cnt++;
+					 break;
+				case '(':right_cnt--;
+					 if(right_cnt<0){
+					 	assert(0);
+					 }
+					 break;
+				case '+':
+				case '-':if(!right_cnt){
+					 	mid = t;
+					 }
+					 break;
+				case '*':
+				case '/':
+					 if(!right_cnt && (mid ==-1 || (tokens[mid].type != '+' && tokens[mid].type != '-'))){
+					 	mid = t;
+					 }
+					 break;
+			}
+			t--;
+		}
+		if(mid == -1 && tokens[p].type == TK_REF){
+			return get_ref(eval(p-1,q));
+		}
+		else if(mid != -1){
+			switch(tokens[mid].type){
+				case '+':return eval(p, mid-1)+eval(mid+1,q);
+				case '-':return eval(p, mid-1)-eval(mid+1,q);
+				case '*':return eval(p, mid-1)*eval(mid+1,q);
+				case '/':;
+					 int div = eval(mid+1,q);
+					 assert(div);
+					 return eval(p, mid-1)/div;
+				default:;
+			}
+		}
+		printf("gramma error!");
+		return 0;
+
+	}
+
 }

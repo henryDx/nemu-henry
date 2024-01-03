@@ -190,7 +190,33 @@ bool check_parentheses(int p, int q, bool* success){
 	return !left_cnt;
 }
 
+void print_type(int index, int type){
+	char* type_str;
+	switch(type){
+		case '+': type_str = "+";
+			  break;
+		case '-': type_str = "-";
+			  break;
+		case '*': type_str = "*";
+                           break;
+		case '/': type_str = "/";
+			  break;
+		case '(': type_str = "(";
+			  break;
+		case ')': type_str = ")";
+			  break;
+		case TK_D: type_str = "TK_D";
+			   break;
+		case TK_REF : type_str = "TK_REF";
+			      break;
+		default: type_str = "UNKNOWN";
+	}
+	printf("%d : %s\n", index, type_str);
+
+}
+
 int eval(int p, int q, bool* success){
+	printf("eval p:%d, q:%d\n",p,q);
 	if(!success){
 		printf("error happend before, abort!");
 		return 0;
@@ -212,7 +238,7 @@ int eval(int p, int q, bool* success){
 		int t = q;
 		int mid = -1;
 		while(t>p){
-			printf("index:%d type:%d\n",t,tokens[t].type);
+			print_type(t,tokens[t].type);
 			switch(tokens[t].type){
 				case ')':right_cnt++;
 					 printf("right++\n");
@@ -220,7 +246,9 @@ int eval(int p, int q, bool* success){
 				case '(':right_cnt--;
 					 printf("right--\n");
 					 if(right_cnt<0){
-					 	assert(0);
+					 	printf("gramma error!\n");
+						*success = false;
+						return 0;
 					 }
 					 break;
 				case '+':

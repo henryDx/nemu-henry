@@ -239,10 +239,10 @@ int eval(int p, int q, bool* success){
 			//print_type(t,tokens[t].type);
 			switch(tokens[t].type){
 				case ')':right_cnt++;
-					 printf("right++\n");
+					 //printf("right++\n");
 					 break;
 				case '(':right_cnt--;
-					 printf("right--\n");
+					 //printf("right--\n");
 					 if(right_cnt<0){
 					 	printf("gramma error!\n");
 						*success = false;

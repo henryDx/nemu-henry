@@ -16,6 +16,7 @@ static void verify_expr(){
 	if(fd ==NULL){
 		printf("open file failed!\n");
 	}
+	FILE *err_log = fopen("/home/henry/Desktop/ics2021/nemu/err_expr","w+");
 	word_t res = 0;
 	char buf[65536];
 	bool succ = false;
@@ -27,7 +28,7 @@ static void verify_expr(){
 		//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		if(expr_res != res || succ == false){
 			err_cnt++;
-			printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
+			fprintf(err_log,"expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		}
 	}
 	printf("err:%d total:%d\n",err_cnt, cnt);

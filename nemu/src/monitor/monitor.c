@@ -30,6 +30,7 @@ static void verify_expr(){
 			err_cnt++;
 			fprintf(err_log,"expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		}
+		memset(buf, '\0', 65536 );
 	}
 	printf("err:%d total:%d\n",err_cnt, cnt);
 }

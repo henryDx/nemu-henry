@@ -19,13 +19,18 @@ static void verify_expr(){
 	word_t res = 0;
 	char buf[65536];
 	bool succ = false;
+	int cnt = 0;
+	int err_cnt =0;
 	while(fscanf(fd,"%lu %s",&res,buf)>=2){
+		cnt++;
 		word_t expr_res = expr(buf, &succ);
-		printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
+		//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		if(expr_res != res || succ == false){
+			err_cnt++;
 			printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		}
 	}
+	printf("err:%d total:%d\n",err_cnt, cnt);
 }
 
 static void welcome() {

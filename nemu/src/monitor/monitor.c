@@ -17,17 +17,11 @@ static void verify_expr(){
 		printf("open file failed!\n");
 	}
 	word_t res = 0;
-	char val[30];
 	char buf[65536];
-
-	if(fgets(val,30, fd)==NULL){
-		printf("fgets failed\n");
-	}
-	fgets(buf,65536,fd);
-	printf("val:%s  buf:%s\n",val,buf);
 	bool succ = false;
+	fscanf(fd,"%lu %s",&res,buf);
 	word_t expr_res = expr(buf, &succ);
-	//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
+	printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 	if(expr_res != res || succ == false){
 		printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 	}

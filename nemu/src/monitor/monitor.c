@@ -15,14 +15,14 @@ static void verify_expr(){
 	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/tools/gen-expr/correct_input", "w");
 	word_t res = 0;
 	char buf[65536];
-	while(fscanf(fd, "%lu %s",&res, buf)>=2){
-		bool succ = false;
-		word_t expr_res = expr(buf, &succ);
-		 printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
-		if(expr_res != res || succ == false){
-			printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
-		}
+	fscanf(fd, "%lu %s",&res, buf);
+	bool succ = false;
+	word_t expr_res = expr(buf, &succ);
+	//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
+	if(expr_res != res || succ == false){
+		printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 	}
+	
 }
 
 static void welcome() {

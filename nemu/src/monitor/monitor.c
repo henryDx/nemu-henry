@@ -19,7 +19,10 @@ static void verify_expr(){
 	word_t res = 0;
 	char val[30];
 	char buf[65536];
-	fgets(val,30, fd);
+
+	if(fgets(val,30, fd)==NULL){
+		printf("fgets failed\n");
+	}
 	fgets(buf,65536,fd);
 	printf("val:%s  buf:%s\n",val,buf);
 	bool succ = false;

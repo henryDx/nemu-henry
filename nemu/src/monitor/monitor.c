@@ -12,7 +12,7 @@ void init_sdb();
 void init_disasm(const char *triple);
 
 static void verify_expr(){
-	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/tools/gen-expr/correct_input", "w");
+	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/tools/gen-expr/correct_input", "r");
 	word_t res = 0;
 	char val[30];
 	char buf[65536];

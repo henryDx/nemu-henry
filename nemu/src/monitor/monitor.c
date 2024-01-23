@@ -16,6 +16,7 @@ static void verify_expr(){
 	word_t res = 0;
 	char buf[65536];
 	fscanf(fd, "%lu %s",&res, buf);
+	printf("%lu  %s\n",res,buf);
 	bool succ = false;
 	word_t expr_res = expr(buf, &succ);
 	//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);

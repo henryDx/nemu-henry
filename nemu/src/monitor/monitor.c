@@ -12,7 +12,7 @@ void init_sdb();
 void init_disasm(const char *triple);
 
 static void verify_expr(){
-	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/Input", "r");
+	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/input", "r");
 	if(fd ==NULL){
 		printf("open file failed!\n");
 	}

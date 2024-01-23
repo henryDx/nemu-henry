@@ -19,12 +19,13 @@ static char *code_format =
 static void gen_rand_expr();
 static int depth = 0;
 static int choose(int n){
+	if(65535-buf_cnt<depth*30)return 0;
 	return rand()%n;
 }
 
 static void gen(char c){
 	if(buf_cnt>=65535){
-		printf("gen error\n");
+		//printf("gen error\n");
 		//buf_cnt = 0;
 		//depth = 0;
 		//gen_rand_expr();
@@ -36,7 +37,7 @@ static void gen(char c){
 }
 
 static void gen_num(){
-	for(int i=0;i<10;i++){
+	for(int i=0;i<8;i++){
 		int n = rand()%10;
 		if(n==0){
 			break;
@@ -44,24 +45,32 @@ static void gen_num(){
 		gen(n+'0');
 	}
 	gen(rand()%10 +'0');
-	
+}
+static void gen_no_zero(){
+	for(int i=0;i<8;i++){
+                int n = rand()%10;
+                if(n==0){
+                        break;
+                }
+                gen(n+'0');
+        }
+        gen(rand()%9 +'1');
 
 }
-
 static void gen_rand_op(){
-	switch(choose(4)){
+	switch(choose(3)){
 		case 0:gen('+');break;
 		case 1:gen('-');break;
-		case 2:gen('*');break;
-		default:gen('/');break;
+		default:gen('*');break;
 	}
 }
 
 static void gen_rand_expr() {
 	depth++;
-  switch (choose(3)){
+  switch (choose(4)){
   	case 0: gen_num(); break;
 	case 1: gen('(');gen_rand_expr();gen(')');break;
+	case 2: gen_rand_expr();gen('/');gen_no_zero();
 	default: gen_rand_expr();gen_rand_op(); gen_rand_expr();break;
   }
   	depth--;

@@ -18,6 +18,7 @@ static void verify_expr(){
 	while(fscanf(fd, "%lu %s",&res, buf)>=2){
 		bool succ = false;
 		word_t expr_res = expr(buf, &succ);
+		 printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		if(expr_res != res || succ == false){
 			printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		}

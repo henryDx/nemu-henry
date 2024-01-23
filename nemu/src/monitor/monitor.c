@@ -18,7 +18,7 @@ static void verify_expr(){
 	char buf[65536];
 	fgets(val,30, fd);
 	fgets(buf,65536,fd);
-	printf("%lu  %s\n",res,buf);
+	printf("%s  %s\n",val,buf);
 	bool succ = false;
 	word_t expr_res = expr(buf, &succ);
 	//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);

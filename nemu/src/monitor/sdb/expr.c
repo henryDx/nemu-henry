@@ -13,7 +13,7 @@ enum {
 };
 
 bool is_op(int type);
-word_t eval(int p, int q, bool *success);
+word_t eval(word_t p, word_t q, bool *success);
 int get_ref(int addr);
 
 static struct rule {
@@ -213,8 +213,8 @@ void print_type(int index, int type){
 
 }
 
-word_t eval(int p, int q, bool* success){
-	printf("eval p:%d, q:%d\n",p,q);
+word_t eval(word_t p, word_t q, bool* success){
+	//printf("eval p:%lu, q:%lu\n",p,q);
 	if(!success){
 		printf("error happend before, abort!");
 		return 0;

@@ -7,6 +7,7 @@
 
 // this should be enough
 static char buf[65536] = {};
+static int buf_cnt = 0;
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
@@ -15,24 +16,36 @@ static char *code_format =
 "  printf(\"%%u\", result); "
 "  return 0; "
 "}";
+static void gen_rand_expr();
+static int depth = 0;
 static int choose(int n){
 	return rand()%n;
 }
 
 static void gen(char c){
-	static int p=0;
-	buf[p]=c;
-	p++;
+	if(buf_cnt>=65535){
+		printf("gen error\n");
+		//buf_cnt = 0;
+		//depth = 0;
+		//gen_rand_expr();
+		return;
+	}
+	buf[buf_cnt]=c;
+	buf_cnt++;
+	buf[buf_cnt]='\0';
 }
 
 static void gen_num(){
-	char a[20];
-	snprintf(a,20,"%d\n", rand());
-	int i = 0;
-	while(a[i]>='0'&&a[i]<='9'){
-		gen(a[i]);
-		i++;
+	for(int i=0;i<10;i++){
+		int n = rand()%10;
+		if(n==0){
+			break;
+		}
+		gen(n+'0');
 	}
+	gen(rand()%10 +'0');
+	
+
 }
 
 static void gen_rand_op(){
@@ -45,11 +58,13 @@ static void gen_rand_op(){
 }
 
 static void gen_rand_expr() {
+	depth++;
   switch (choose(3)){
   	case 0: gen_num(); break;
 	case 1: gen('(');gen_rand_expr();gen(')');break;
 	default: gen_rand_expr();gen_rand_op(); gen_rand_expr();break;
   }
+  	depth--;
 }
 
 int main(int argc, char *argv[]) {
@@ -61,6 +76,7 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+    buf_cnt=0;
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
@@ -77,7 +93,9 @@ int main(int argc, char *argv[]) {
     assert(fp != NULL);
 
     int result;
-    fscanf(fp, "%d", &result);
+    if(fscanf(fp, "%d", &result) == -1){
+    	printf("fscanf failed \n");
+    }
     pclose(fp);
 
     printf("%u %s\n", result, buf);

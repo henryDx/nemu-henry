@@ -1,5 +1,7 @@
 #include <isa.h>
 #include <memory/paddr.h>
+#include <fcntl.h>
+#include "sdb/sdb.h"
 
 void init_rand();
 void init_log(const char *log_file);
@@ -8,6 +10,19 @@ void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
+
+static void verify_expr(){
+	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/tools/gen-expr/correct_input", O_RDONLY);
+	word_t res = 0;
+	char buf[65536];
+	while(fscanf(fd, "%lu %s",&res, buf)>=2){
+		bool succ = false;
+		word_t expr_res = expr(buf, &succ);
+		if(expr_res != res || succ == false){
+			printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
+		}
+	}
+}
 
 static void welcome() {
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ASNI_FMT("ON", ASNI_FG_GREEN), ASNI_FMT("OFF", ASNI_FG_RED)));
@@ -119,7 +134,7 @@ void init_monitor(int argc, char *argv[]) {
     MUXDEF(CONFIG_ISA_riscv32, "riscv32",
     MUXDEF(CONFIG_ISA_riscv64, "riscv64", "bad")))) "-pc-linux-gnu"
   ));
-
+  verify_expr();
   /* Display welcome message. */
   welcome();
 }

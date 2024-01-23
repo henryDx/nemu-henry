@@ -14,8 +14,10 @@ void init_disasm(const char *triple);
 static void verify_expr(){
 	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/tools/gen-expr/correct_input", "w");
 	word_t res = 0;
+	char val[30];
 	char buf[65536];
-	fscanf(fd, "%lu %s",&res, buf);
+	fgets(val,30, fd);
+	fgets(buf,65536,fd);
 	printf("%lu  %s\n",res,buf);
 	bool succ = false;
 	word_t expr_res = expr(buf, &succ);

@@ -28,7 +28,7 @@ static void verify_expr(){
 		//printf("expr failed expr_res:%lu  res:%lu \n", expr_res, res);
 		if(expr_res != res || succ == false){
 			err_cnt++;
-			fprintf(err_log,"expr failed expr_res:%lu  res:%lu \n", expr_res, res);
+			fprintf(err_log,"expr failed expr_res:%lu  res:%lu \n error expr:%s", expr_res, res, buf);
 		}
 		memset(buf, '\0', 65536 );
 	}

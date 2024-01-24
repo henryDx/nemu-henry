@@ -6,11 +6,17 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_HEX, TK_D, TK_REG, TK_VAR, TK_REF,
+  TK_NOTYPE = 256, TK_EQ, TK_HEX, TK_D, TK_REG, TK_VAR, TK_REF,TK_NE,TK_LE,TK_GE,TK_AND,
 
   /* TODO: Add more token types */
 
 };
+
+enum {
+  OP_PLUS=0, OP_MINUS, OP_MULTI, OP_DIV, OP_AND, OP_EQ, OP_NE, OP_LEFT, OP_RIGHT, OP_SIZE,
+};
+
+int op_priv[OP_SIZE] = {1,1,0,0,2,2,2,-1,-1};
 
 bool is_op(int type);
 word_t eval(word_t p, word_t q, bool *success);
@@ -26,16 +32,20 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ},        // equal
+  {"\\+", OP_PLUS},         // plus
+  {"==", OP_EQ},        // equal
+  {"&&", OP_AND},
+  //{"<=", TK_LE},
+  //{">=", TK_GE},
+  {"!=", OP_NE},
   {"0[xX][0-9a-fA-F]+", TK_HEX},
   {"[0-9]+", TK_D},
   {"\\$((\\$0)|(ra)|((s|g|t)p)|(t[0-2])|(s[0-1])|(a[0-7])|(s([2-9]|10|11))|(t[3-6]))", TK_REG},
-  {"\\*", '*'},
-  {"\\/", '/'},
-  {"\\-", '-' },
-  {"\\(", '('},
-  {"\\)", ')'},
+  {"\\*", OP_MULTI},
+  {"\\/", OP_DIV},
+  {"\\-", OP_MINUS },
+  {"\\(", OP_LEFT},
+  {"\\)", OP_RIGHT},
   {"[A-Za-z]\\w*", TK_VAR},
 };
 
@@ -116,11 +126,11 @@ static bool make_token(char *e) {
 			       tokens[nr_token].type = TK_D;
 			       nr_token++;
 			       break;
-		case '*': if(nr_token-1<0 || is_op(tokens[nr_token-1].type) || tokens[nr_token-1].type == '('){
+		case OP_MULTI: if(nr_token-1<0 || (is_op(tokens[nr_token-1].type) || tokens[nr_token-1].type == OP_LEFT)){
 			  		tokens[nr_token].type = TK_REF;
 			  }
 			  else{
-			  	tokens[nr_token].type = '*';     
+			  	tokens[nr_token].type = OP_MULTI;     
 			  }
 			  nr_token++;
 			  break;
@@ -162,7 +172,7 @@ word_t expr(char *e, bool *success) {
 }
 
 bool is_op(int type){
-	return type == '+'||type == '-' || type == '/' || type == '*';
+	return type>=0 && type <= OP_NE;
 }
 
 int get_ref(int addr){
@@ -186,31 +196,6 @@ bool check_parentheses(int p, int q){
 		}
 	}
 	return !left_cnt;
-}
-
-void print_type(int index, int type){
-	char* type_str;
-	switch(type){
-		case '+': type_str = "+";
-			  break;
-		case '-': type_str = "-";
-			  break;
-		case '*': type_str = "*";
-                           break;
-		case '/': type_str = "/";
-			  break;
-		case '(': type_str = "(";
-			  break;
-		case ')': type_str = ")";
-			  break;
-		case TK_D: type_str = "TK_D";
-			   break;
-		case TK_REF : type_str = "TK_REF";
-			      break;
-		default: type_str = "UNKNOWN";
-	}
-	printf("%d : %s\n", index, type_str);
-
 }
 
 word_t eval(word_t p, word_t q, bool* success){
@@ -238,30 +223,19 @@ word_t eval(word_t p, word_t q, bool* success){
 		int mid = -1;
 		while(t>p){
 			//print_type(t,tokens[t].type);
-			switch(tokens[t].type){
-				case ')':right_cnt++;
-					 //printf("right++\n");
-					 break;
-				case '(':right_cnt--;
-					 //printf("right--\n");
-					 if(right_cnt<0){
-					 	printf("gramma error!\n");
-						*success = false;
-						return 0;
-					 }
-					 break;
-				case '+':
-				case '-':if(!right_cnt){
-					 	mid = t;
-					 }
-					 break;
-				case '*':
-				case '/':
-					 if(!right_cnt && (mid ==-1 || (tokens[mid].type != '+' && tokens[mid].type != '-'))){
-					 	mid = t;
-					 }
-					 break;
+
+			if(tokens[t].type == OP_RIGHT){
+				right_cnt++;
 			}
+       			else if(tokens[t].type == OP_LEFT){
+				right_cnt--;
+				assert(right_cnt>=0);
+			}
+			else if(is_op(tokens[t].type)){
+				if(mid == -1 || op_priv[tokens[t].type] > op_priv[tokens[mid].type]){
+					mid = t;
+				}
+			}			
 			t--;
 		}
 		if(mid == -1 && tokens[p].type == TK_REF){
@@ -269,15 +243,18 @@ word_t eval(word_t p, word_t q, bool* success){
 		}
 		else if(mid != -1){
 			switch(tokens[mid].type){
-				case '+':return eval(p, mid-1, success)+eval(mid+1,q,success);
-				case '-':return eval(p, mid-1, success)-eval(mid+1,q,success);
-				case '*':return eval(p, mid-1, success)*eval(mid+1,q,success);
-				case '/':;
+				case OP_PLUS:return eval(p, mid-1, success)+eval(mid+1,q,success);
+				case OP_MINUS:return eval(p, mid-1, success)-eval(mid+1,q,success);
+				case OP_MULTI:return eval(p, mid-1, success)*eval(mid+1,q,success);
+				case OP_DIV:;
 					 word_t div = eval(mid+1,q,success);
 					 if(div!=0){
 					 	return eval(p, mid-1,success)/div;
 					 }
 					 printf("divide 0 error!");
+				case OP_EQ: return eval(p, mid-1, success)==eval(mid+1,q,success);
+				case OP_NE: return eval(p, mid-1, success)!=eval(mid+1,q,success);
+				case OP_AND: return eval(p, mid-1, success) && eval(mid+1,q,success);
 				default:;
 			}
 		}

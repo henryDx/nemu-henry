@@ -231,6 +231,7 @@ word_t eval(word_t p, word_t q, bool* success){
 				right_cnt--;
 				if(right_cnt <0){
 					*success =false;
+					printf("match error!, p = %lu q = %lu\n",p,q);
 					return 0;
 					//assert(right_cnt>=0);
 				}

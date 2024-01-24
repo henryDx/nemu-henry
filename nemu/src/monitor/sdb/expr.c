@@ -231,7 +231,7 @@ word_t eval(word_t p, word_t q, bool* success){
 				right_cnt--;
 				if(right_cnt <0){
 					printf("p=%ld q=%ld \n",p,q);
-					for(int i=p; i<=q;i++){
+					for(word_t i=p; i<=q;i++){
 						printf("%d ",tokens[i].type );
 					}
 					printf("/n");

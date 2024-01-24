@@ -230,14 +230,9 @@ word_t eval(word_t p, word_t q, bool* success){
        			else if(tokens[t].type == OP_LEFT){
 				right_cnt--;
 				if(right_cnt <0){
-					printf("p=%ld q=%ld \n",p,q);
-					for(word_t i=0; i<=12;i++){
-						printf("%ld  ", i );
-					}
-					printf("/n");
 					*success =false;
 					return 0;
-					assert(right_cnt>=0);
+					//assert(right_cnt>=0);
 				}
 			}
 			else if(is_op(tokens[t].type)){

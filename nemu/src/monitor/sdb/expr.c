@@ -229,7 +229,13 @@ word_t eval(word_t p, word_t q, bool* success){
 			}
        			else if(tokens[t].type == OP_LEFT){
 				right_cnt--;
-				assert(right_cnt>=0);
+				if(right_cnt <0){
+					for(int i=p; i<=q;i++){
+						printf("%d ",tokens[i].type );
+					}
+					printf("/n");
+					assert(right_cnt>=0);
+				}
 			}
 			else if(is_op(tokens[t].type)){
 				if(mid == -1 || op_priv[tokens[t].type] > op_priv[tokens[mid].type]){

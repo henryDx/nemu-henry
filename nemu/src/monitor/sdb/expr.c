@@ -180,15 +180,15 @@ int get_ref(int addr){
 }
 
 bool check_parentheses(int p, int q){
-	if(tokens[p].type!='(' || tokens[q].type!=')'){
+	if(tokens[p].type!=OP_LEFT || tokens[q].type!=OP_RIGHT){
 		return false;
 	}
 	int left_cnt=0;
 	for(int i=p+1;i<=q-1;i++){
-		if(tokens[i].type == '('){
+		if(tokens[i].type == OP_LEFT){
 			left_cnt++;
 		}
-		else if(tokens[i].type == ')'){
+		else if(tokens[i].type == OP_RIGHT){
 			left_cnt--;
 			if(left_cnt<0){
 				return false;
@@ -237,7 +237,8 @@ word_t eval(word_t p, word_t q, bool* success){
 				}
 			}
 			else if(is_op(tokens[t].type)){
-				if(mid == -1 || op_priv[tokens[t].type] > op_priv[tokens[mid].type]){
+
+				if(right_cnt == 0 &&(mid == -1 || op_priv[tokens[t].type] > op_priv[tokens[mid].type])){
 					mid = t;
 				}
 			}			

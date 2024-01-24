@@ -235,6 +235,8 @@ word_t eval(word_t p, word_t q, bool* success){
 						printf("%ld  ", i );
 					}
 					printf("/n");
+					*success =false;
+					return 0;
 					assert(right_cnt>=0);
 				}
 			}

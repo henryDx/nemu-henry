@@ -33,7 +33,8 @@ void add_wp(char* e){
         int len = strlen(e);
         wp->expr = (char *)malloc(sizeof(char)*(len+1));
         strcpy(wp->expr, e);
-        wp->cur = expr(e, &ret);	
+        wp->cur = expr(e, &ret);
+	printf("Hardware watchpoint %d is set!\n",wp->NO);	
 }
 
 void delete_wp(int no){
@@ -49,7 +50,6 @@ WP* new_wp(){
 	head =  wp_new;
 	return wp_new;
 }
-
 
 void free_wp(WP* wp){
 	WP* prev = head;
@@ -75,3 +75,18 @@ void free_wp(WP* wp){
 	wp->expr = NULL;
 }
 
+void scan_wp(){
+	WP* tmp = head;
+	while(tmp!=NULL){
+		bool success = false;
+		int new_val = expr(tmp->expr, &success);
+		if(new_val != tmp->cur){
+			tmp->cur = new_val;
+			printf("break at the watchpoint %d!\n",tmp->NO);
+			nemu_state.state = NEMU_STOP;
+			return;
+		}
+		tmp=tmp->next;
+	}
+
+}

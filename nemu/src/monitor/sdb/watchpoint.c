@@ -75,7 +75,7 @@ void free_wp(WP* wp){
 	wp->expr = NULL;
 }
 
-void scan_wp(){
+bool scan_wp(){
 	WP* tmp = head;
 	while(tmp!=NULL){
 		bool success = false;
@@ -83,10 +83,18 @@ void scan_wp(){
 		if(new_val != tmp->cur){
 			tmp->cur = new_val;
 			printf("break at the watchpoint %d!\n",tmp->NO);
-			nemu_state.state = NEMU_STOP;
-			return;
+			//nemu_state.state = NEMU_STOP;
+			return false;
 		}
 		tmp=tmp->next;
 	}
+	return true;
+}
 
+void display_wp(){
+	WP* tmp = head;
+	while(tmp != NULL){
+		printf("Watchpoint %d : %s\n", tmp->NO, tmp->expr);
+		tmp=tmp->next;
+	}
 }

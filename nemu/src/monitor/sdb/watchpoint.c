@@ -54,12 +54,12 @@ WP* new_wp(){
 	wp_new->next = head;
 	head =  wp_new;
 	printf("head:%d", head->NO);
-	if(head->next==NULL){
+	/*if(head->next==NULL){
 		printf("next: NULL\n");
 	}
 	else{
-		printf("next: %d",head->next->NO);
-	}
+		printf("next: %d\n",head->next->NO);
+	}*/
 	return wp_new;
 }
 

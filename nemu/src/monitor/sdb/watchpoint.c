@@ -29,11 +29,16 @@ void free_wp(WP* wp);
 
 void add_wp(char* e){
 	bool ret = false;
+	int cur = expr(e, &ret);
+	if(ret == false){
+		printf("invalid express\n");
+		return;
+	}
         WP * wp = new_wp();
         int len = strlen(e);
         wp->expr = (char *)malloc(sizeof(char)*(len+1));
         strcpy(wp->expr, e);
-        wp->cur = expr(e, &ret);
+        wp->cur = cur;
 	printf("Hardware watchpoint %d is set!\n",wp->NO);	
 }
 
@@ -48,6 +53,13 @@ WP* new_wp(){
 	free_ = free_->next;
 	wp_new->next = head;
 	head =  wp_new;
+	printf("head:%d", head->NO);
+	if(head->next==NULL){
+		printf("next: NULL\n");
+	}
+	else{
+		printf("next: %d",head->next->NO);
+	}
 	return wp_new;
 }
 

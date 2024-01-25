@@ -65,7 +65,7 @@ static int cmd_info(char *args){
 		isa_reg_display();
 	}
 	else if(!strcmp(arg, "w")){
-	
+		display_wp();	
 	}
 	else{
 		printf("unknown arguments\n");

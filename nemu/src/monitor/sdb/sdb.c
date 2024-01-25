@@ -107,6 +107,17 @@ static int cmd_p(char* args){
 	return 0;
 }
 
+static int cmd_w(char* args){
+	add_wp(args);
+	return 0;
+}
+
+static int cmd_d(char* args){
+	int n = atoi(args);
+	delete_wp(n);
+	return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -119,6 +130,8 @@ static struct {
   { "info", "print register or watchpoint", cmd_info},
   { "x", "display tge value of memory", cmd_x},
   { "p", "evalue expression", cmd_p},
+  { "w", "set watchpoint", cmd_w},
+  { "d", "delete watchpoint", cmd_d},
   /* TODO: Add more commands */
 
 };

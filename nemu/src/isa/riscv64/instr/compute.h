@@ -3,5 +3,5 @@ def_EHelper(auipc) {
 }
 
 def_EHelper(addi) {
-  rtl_addi(s, ddest, dsrc1, id_src1->imm);
+  rtl_addi(s, ddest, dsrc1, id_src2->imm);
 }

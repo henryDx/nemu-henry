@@ -3,7 +3,7 @@ def_EHelper(inv) {
 }
 
 def_EHelper(jump) {
-  rtl_j(s, id_src1->imm + CONFIG_MBASE);
+  rtl_j(s, id_src1->imm);
 }
 
 def_EHelper(nemu_trap) {

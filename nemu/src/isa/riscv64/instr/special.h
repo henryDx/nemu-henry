@@ -3,7 +3,7 @@ def_EHelper(inv) {
 }
 
 def_EHelper(jump) {
-  //printf("pc = %lx\n snpc = %lx\n", s->pc, s->snpc);
+  printf("pc = %lx\n snpc = %lx\n", s->pc+id_src1->imm, s->snpc);
   rtl_j(s, (word_t)id_src1->imm + s->pc);
 }
 

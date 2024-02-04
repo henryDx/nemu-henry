@@ -3,8 +3,9 @@ def_EHelper(inv) {
 }
 
 def_EHelper(jump) {
-  printf("pc = %lx\n snpc = %lx\n", s->pc+id_src1->imm, s->snpc);
-  rtl_j(s, (vaddr_t)(s->pc+id_src1->imm));
+  vaddr_t next_pc = s->pc+id_src1->imm;
+  printf("pc = %lx\n snpc = %lx\n", next_pc, s->snpc);
+  rtl_j(s, next_pc);
 }
 
 def_EHelper(nemu_trap) {

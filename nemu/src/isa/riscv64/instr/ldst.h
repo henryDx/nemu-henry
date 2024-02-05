@@ -17,6 +17,11 @@ def_EHelper_load_singed(lw, 4)
 def_EHelper_load_singed(lb, 1) 
 def_EHelper_load_singed(lh, 2) 
 
-def_EHelper(sd) {
-  rtl_sm(s, ddest, dsrc1, id_src2->imm, 8);
-}
+#define def_EHelper_store(name, num) def_EHelper(name) {\
+   rtl_sm(s, ddest, dsrc1, id_src2->imm, num);\
+}\
+
+def_EHelper_store(sd, 8)
+def_EHelper_store(sb, 1)
+def_EHelper_store(sh, 2)
+def_EHelper_store(sw, 4)

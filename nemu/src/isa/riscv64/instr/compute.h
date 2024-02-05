@@ -8,6 +8,7 @@
 }\
 
 #define def_EHelper_compute_reg(name) def_EHelper(name) {\
+  printf("before "#name" a:%ld b:%ld res: %ld, add_res:%ld\n",*dsrc1, *dsrc2, *ddest, *dsrc1 + *dsrc2);\
   concat(rtl_, name) (s, ddest, dsrc1, dsrc2);\
   printf(" "#name" a:%ld b:%ld res: %ld, add_res:%ld\n",*dsrc1, *dsrc2, *ddest, *dsrc1 + *dsrc2);\
 }\

@@ -26,6 +26,7 @@ def_EHelper(nemu_trap) {
 
 #define def_EHelper_branch(name, OP) def_EHelper(name) {\
   vaddr_t next_pc = (s->pc + id_dest->simm)&(~1);\
+  printf("offset = %lx\n", (sword_t)id_dest->simm);\
   printf("next_pc = %lx\n", next_pc);\
   rtl_jrelop(s, concat(RELOP_, OP), dsrc1, dsrc2, next_pc);\
 }\

@@ -25,3 +25,7 @@ def_EHelper_store(sd, 8)
 def_EHelper_store(sb, 1)
 def_EHelper_store(sh, 2)
 def_EHelper_store(sw, 4)
+
+def_EHelper(lui) {
+  rtl_li(s, ddest, id_src1->imm<<12);
+}

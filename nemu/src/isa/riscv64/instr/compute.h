@@ -1,14 +1,14 @@
+#define DEBUG_PRINT 1
+
 #define def_EHelper_compute_reg_imm(name) \
   def_EHelper_compute_reg(name)\
   def_EHelper_compute_imm(concat(name,i))\
 
 #define def_EHelper_compute_imm(name) def_EHelper(name) {\
-  printf("before "#name" a:%lx b:%lx res: %lx, add_res:%lx\n",*dsrc1, id_src2->imm, *ddest, *dsrc1 + id_src2->imm);\
   concat(rtl_, name) (s, ddest, dsrc1, id_src2->imm);\
 }\
 
 #define def_EHelper_compute_reg(name) def_EHelper(name) {\
-  printf("before "#name" a:%lx b:%lx res: %lx, add_res:%lx\n",*dsrc1, *dsrc2, *ddest, *dsrc1 + *dsrc2);\
   concat(rtl_, name) (s, ddest, dsrc1, dsrc2);\
 }\
 
@@ -17,7 +17,6 @@
   def_EHelper_slt_imm(concat(name,i), op)\
 
 #define def_EHelper_slt_reg(name, op) def_EHelper(name) {\
-printf("before "#name" a:%ld b:%ld \n",*dsrc1, *dsrc2);\
   *ddest = interpret_relop(concat(RELOP_, op), *dsrc1, *dsrc2);\
 }\
 

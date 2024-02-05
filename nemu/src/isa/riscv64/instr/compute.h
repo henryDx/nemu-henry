@@ -22,7 +22,7 @@ printf("before "#name" a:%ld b:%ld \n",*dsrc1, *dsrc2);\
 }\
 
 #define def_EHelper_slt_imm(name, op) def_EHelper(name) {\
-printf("before "#name" a:%ld b:%ld \n",*dsrc1, id_src2->imm);\
+printf("before "#name" a:%ld b:%ld res:%d\n",*dsrc1, id_src2->imm, interpret_relop(concat(RELOP_, op), *dsrc1, id_src2->imm));\
   *ddest = interpret_relop(concat(RELOP_, op), *dsrc1, id_src2->imm);\
 }\
 

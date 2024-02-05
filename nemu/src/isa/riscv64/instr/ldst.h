@@ -1,5 +1,6 @@
 def_EHelper(ld) {
   rtl_lm(s, ddest, dsrc1, id_src2->imm, 8);
+  printf("load %lx addr %lx offset %lx\n",*ddest, *dsrc1, id_src2->imm);
 }
 
 def_EHelper(lwu) {

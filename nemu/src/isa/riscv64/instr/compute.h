@@ -30,6 +30,13 @@ def_EHelper(sltu) {
   
 }
 
+def_EHelper(srai) {
+  rtl_srai(s, ddest, dsrc1, id_src2->imm & 0x01f);
+}
+
+def_EHelper(sra) {
+  rtl_sra(s, ddest, dsrc1, dsrc2);
+}
 
 
 def_EHelper_compute_reg_imm(add)
@@ -39,7 +46,7 @@ def_EHelper_compute_reg_imm(or)
 def_EHelper_compute_reg_imm(xor)
 def_EHelper_compute_reg_imm(sll)
 def_EHelper_compute_reg_imm(srl)
-def_EHelper_compute_reg_imm(sra)
+
 
 def_EHelper_compute_reg_imm(addw)
 def_EHelper_compute_reg_imm(subw)

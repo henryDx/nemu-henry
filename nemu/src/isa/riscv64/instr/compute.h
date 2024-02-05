@@ -9,28 +9,27 @@
 
 #define def_EHelper_compute_reg(name) def_EHelper(name) {\
   concat(rtl_, name) (s, ddest, dsrc1, dsrc2);\
-  printf(" "#name" a:%ld b:%ld res: %ld\n",*dsrc1, *dsrc2, *ddest);\
+  printf(" "#name" a:%ld b:%ld res: %ld, add_res:%ld\n",*dsrc1, *dsrc2, *ddest, *dsrc1 + *dsrc2);\
+}\
+
+#define def_EHelper_slt_reg_imm(name, op) \
+  def_EHelper_slt_reg(name, op)\
+  def_EHelper_slt_imm(concat(name,i), op)\
+
+#define def_EHelper_slt_reg(name, op) def_EHelper(name) {\
+  *ddest = interpret_relop(concat(RELOP_, op), *dsrc1, *dsrc2);\
+}\
+
+#define def_EHelper_slt_imm(name, op) def_EHelper(name) {\
+  *ddest = interpret_relop(concat(RELOP_, op), *dsrc1, id_src2->imm);\
 }\
 
 def_EHelper(auipc) {
   rtl_li(s, ddest, id_src1->imm + s->pc);
 }
 
-def_EHelper(slt) {
-  *ddest = interpret_relop(RELOP_LT, *dsrc1, *dsrc2);
-}
-
-def_EHelper(slti) {
-  *ddest = interpret_relop(RELOP_LT, *dsrc1, id_src2->imm);
-}
-
-def_EHelper(sltui) {
-  *ddest = interpret_relop(RELOP_LTU, *dsrc1, id_src2->imm);
-}
-
-def_EHelper(sltu) {
-  *ddest = interpret_relop(RELOP_LTU, *dsrc1, *dsrc2);
-}
+def_EHelper_slt_reg_imm(slt, LT)
+def_EHelper_slt_reg_imm(sltu, LTU)
 
 def_EHelper(srai) {
   rtl_srai(s, ddest, dsrc1, id_src2->imm & 0x01f);

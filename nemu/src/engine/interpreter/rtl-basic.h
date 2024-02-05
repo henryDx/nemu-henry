@@ -9,6 +9,7 @@
 #define def_rtl_compute_reg(name) \
   static inline def_rtl(name, rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) { \
     *dest = concat(c_, name) (*src1, *src2); \
+    printf("after :%ld",*dest);\
   }
 
 #define def_rtl_compute_imm(name) \

@@ -30,7 +30,7 @@ static inline def_DHelper(I) {
 
 static inline def_DHelper(J) {
   sword_t simm = (s->isa.instr.j.simm20 << 20) |(s->isa.instr.j.simm19_12 << 12) | (s->isa.instr.j.simm11 << 11)|(s->isa.instr.j.simm10_1 << 1);
-  decode_op_i(s, id_src1, simm, false);
+  id_src1->simm = simm;
   decode_op_r(s, id_dest, s->isa.instr.u.rd, true);
 }
 

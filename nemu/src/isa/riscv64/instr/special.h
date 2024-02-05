@@ -3,7 +3,7 @@ def_EHelper(inv) {
 }
 
 def_EHelper(jump) {
-  vaddr_t next_pc = s->pc+id_src1->imm;
+  vaddr_t next_pc = s->pc+id_src1->simm;
   printf("next_pc = %lx\n", next_pc);
   rtl_j(s, next_pc);
   *ddest = s->snpc;

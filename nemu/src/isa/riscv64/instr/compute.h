@@ -49,6 +49,8 @@ def_EHelper_compute_reg_imm(srl)
 
 
 def_EHelper_compute_reg_imm(addw)
+def_EHelper_compute_reg(mulw)
+def_EHelper_compute_reg(divw)
 def_EHelper_compute_reg_imm(subw)
 def_EHelper_compute_reg_imm(sllw)
 def_EHelper_compute_reg_imm(srlw)

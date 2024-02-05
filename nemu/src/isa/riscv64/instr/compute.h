@@ -4,12 +4,12 @@
 
 #define def_EHelper_compute_imm(name) def_EHelper(name) {\
   concat(rtl_, name) (s, ddest, dsrc1, id_src2->imm);\
-  printf("%s  a:%lx b:%lx res: %lx\n","concat(rtl_, name) ",*dsrc1, id_src2->imm, *ddest);\
+  printf(" "#name" a:%lx b:%lx res: %lx\n",*dsrc1, id_src2->imm, *ddest);\
 }\
 
 #define def_EHelper_compute_reg(name) def_EHelper(name) {\
   concat(rtl_, name) (s, ddest, dsrc1, dsrc2);\
-  printf("name a:%lx b:%lx res: %lx\n",*dsrc1, *dsrc2, *ddest);\
+  printf(" "#name" a:%lx b:%lx res: %lx\n",*dsrc1, *dsrc2, *ddest);\
 }\
 
 def_EHelper(auipc) {

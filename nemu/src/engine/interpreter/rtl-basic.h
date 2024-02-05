@@ -15,7 +15,7 @@
 #define def_rtl_compute_imm(name) \
   static inline def_rtl(name ## i, rtlreg_t* dest, const rtlreg_t* src1, const sword_t imm) { \
     *dest = concat(c_, name) (*src1, imm); \
-    printf("a:%ld b:%ld :%ld\n",*src1,imm,*dest);\
+    printf("a:%lx b:%lx c:%lx\n",*src1,imm,*dest);\
   }
 
 #define def_rtl_compute_reg_imm(name) \

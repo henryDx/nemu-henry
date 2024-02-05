@@ -15,19 +15,19 @@ def_EHelper(auipc) {
 }
 
 def_EHelper(slt) {
-  
+  *ddest = interpret_relop(RELOP_LT, *dsrc1, *dsrc2);
 }
 
 def_EHelper(slti) {
-  
+  *ddest = interpret_relop(RELOP_LT, *dsrc1, id_src2->imm);
 }
 
 def_EHelper(sltui) {
-  
+  *ddest = interpret_relop(RELOP_LTU, *dsrc1, id_src2->imm);
 }
 
 def_EHelper(sltu) {
-  
+  *ddest = interpret_relop(RELOP_LTU, *dsrc1, *dsrc2);
 }
 
 def_EHelper(srai) {

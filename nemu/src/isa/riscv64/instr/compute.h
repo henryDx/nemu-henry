@@ -10,6 +10,10 @@
   concat(rtl_, name) (s, ddest, dsrc1, dsrc2);\
 }\
 
+#define def_EHelper_compute_reg_func(name, func) def_EHelper(name) {\
+  concat(rtl_, func) (s, ddest, dsrc1, dsrc2);\
+}\
+
 #define def_EHelper_slt_reg_imm(name, op) \
   def_EHelper_slt_reg(name, op)\
   def_EHelper_slt_imm(concat(name,i), op)\
@@ -51,6 +55,9 @@ def_EHelper_compute_reg_imm(srl)
 def_EHelper_compute_reg_imm(addw)
 def_EHelper_compute_reg(mulw)
 def_EHelper_compute_reg(divw)
+def_EHelper_compute_reg_func(divu, divuw) 
+def_EHelper_compute_reg_func(div, divw) 
+def_EHelper_compute_reg_func(mul, mulw)
 def_EHelper_compute_reg(divuw)
 def_EHelper_compute_reg(remw)
 def_EHelper_compute_reg(remuw)

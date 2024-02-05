@@ -35,6 +35,6 @@ def_EHelper(nemu_trap) {
 def_EHelper_branch(beq, EQ)
 def_EHelper_branch(bne, NE)
 def_EHelper_branch(blt, LT)
-def_EHelper_branch(bge, NE)
+def_EHelper_branch(bge, GE)
 def_EHelper_branch(bltu, LTU)
 def_EHelper_branch(bgeu, GEU)

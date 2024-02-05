@@ -3,8 +3,8 @@
   def_EHelper_compute_imm(concat(name,i))\
 
 #define def_EHelper_compute_imm(name) def_EHelper(name) {\
+  printf("before "#name" a:%ld b:%ld res: %ld, add_res:%ld\n",*dsrc1, id_src2->imm, *ddest, *dsrc1 + *dsrc2);\
   concat(rtl_, name) (s, ddest, dsrc1, id_src2->imm);\
-  printf(" "#name" a:%ld b:%ld res: %ld\n",*dsrc1, id_src2->imm, *ddest);\
 }\
 
 #define def_EHelper_compute_reg(name) def_EHelper(name) {\

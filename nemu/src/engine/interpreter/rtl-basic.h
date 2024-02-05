@@ -9,13 +9,13 @@
 #define def_rtl_compute_reg(name) \
   static inline def_rtl(name, rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) { \
     *dest = concat(c_, name) (*src1, *src2); \
-    printf("after :%ld",*dest);\
+    printf("after :%ld\n",*dest);\
   }
 
 #define def_rtl_compute_imm(name) \
   static inline def_rtl(name ## i, rtlreg_t* dest, const rtlreg_t* src1, const sword_t imm) { \
     *dest = concat(c_, name) (*src1, imm); \
-    printf("after :%ld",*dest);\
+    printf("after :%ld\n",*dest);\
   }
 
 #define def_rtl_compute_reg_imm(name) \

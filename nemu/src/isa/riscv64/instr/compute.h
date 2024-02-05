@@ -1,5 +1,3 @@
-#define DEBUG_PRINT 1
-
 #define def_EHelper_compute_reg_imm(name) \
   def_EHelper_compute_reg(name)\
   def_EHelper_compute_imm(concat(name,i))\

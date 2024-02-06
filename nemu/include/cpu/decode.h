@@ -112,7 +112,7 @@ finish:
 #define def_INSTR_raw(decode_fun, pattern, body) do { \
   uint32_t key, mask, shift; \
   decode_fun(pattern, STRLEN(pattern), &key, &mask, &shift); \
-  if (((get_instr(s) >> shift) & mask) == key) { body; } \
+  if (((get_instr(s) >> shift) & mask) == key) { body;  } \
 } while (0)
 
 #define def_INSTR_IDTABW(pattern, id, tab, width) \
@@ -120,13 +120,11 @@ finish:
       { concat(decode_, id)(s, width); return concat(table_, tab)(s); })
 #define def_INSTR_IDTAB(pattern, id, tab)   def_INSTR_IDTABW(pattern, id, tab, 0)
 #define def_INSTR_TABW(pattern, tab, width) def_INSTR_IDTABW(pattern, empty, tab, width)
-#define def_INSTR_TAB(pattern, tab)         def_INSTR_IDTABW(pattern, empty, tab, 0);\
-                                            printf("%s ",""#tab"");
-
+#define def_INSTR_TAB(pattern, tab)         def_INSTR_IDTABW(pattern, empty, tab, 0)
 
 #define def_hex_INSTR_IDTABW(pattern, id, tab, width) \
   def_INSTR_raw(pattern_decode_hex, pattern, \
-      { concat(decode_, id)(s, width); return concat(table_, tab)(s); })
+      { concat(decode_, id)(s, width); printf("%s ",""#tab""); return concat(table_, tab)(s); })
 #define def_hex_INSTR_IDTAB(pattern, id, tab)   def_hex_INSTR_IDTABW(pattern, id, tab, 0)
 #define def_hex_INSTR_TABW(pattern, tab, width) def_hex_INSTR_IDTABW(pattern, empty, tab, width)
 #define def_hex_INSTR_TAB(pattern, tab)         def_hex_INSTR_IDTABW(pattern, empty, tab, 0)

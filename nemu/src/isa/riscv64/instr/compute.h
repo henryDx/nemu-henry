@@ -52,6 +52,16 @@ def_EHelper_compute_reg_imm(srl)
 def_EHelper_compute_reg_imm(addw)
 def_EHelper_compute_reg(mulw)
 def_EHelper_compute_reg(divw)
+
+def_EHelper(rem) {
+  rtl_divs_r (s, ddest, dsrc1, dsrc2);
+}
+
+def_EHelper(remu) {
+   rtl_divu_r (s, ddest, dsrc1, dsrc2);
+}
+
+
 def_EHelper(mul) {
   rtl_mulu_lo (s, ddest, dsrc1, dsrc2);
 }

@@ -9,14 +9,11 @@
 #define def_rtl_compute_reg(name) \
   static inline def_rtl(name, rtlreg_t* dest, const rtlreg_t* src1, const rtlreg_t* src2) { \
     *dest = concat(c_, name) (*src1, *src2); \
-    printf("a:%lx b:%lx \n",*src1, *src2);\
   }
 
 #define def_rtl_compute_imm(name) \
   static inline def_rtl(name ## i, rtlreg_t* dest, const rtlreg_t* src1, const sword_t imm) { \
-    printf("a:%lx b:%lx  except: %lx\n",*src1,imm, *src1+imm);\
     *dest = concat(c_, name) (*src1, imm); \
-    printf("real res:%lx\n",*dest);\
   }
 
 #define def_rtl_compute_reg_imm(name) \
@@ -147,7 +144,6 @@ static inline def_rtl(host_sm, void *addr, const rtlreg_t *src1, int len) {
 
 static inline def_rtl(j, vaddr_t target) {
   s->dnpc = target;
-  printf("next dnpc:%lx\n",target);
 }
 
 static inline def_rtl(jr, rtlreg_t *target) {

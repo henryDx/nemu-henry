@@ -1,11 +1,9 @@
 #define def_EHelper_load_unsinged(name, num) def_EHelper(name) {\
   rtl_lm(s, ddest, dsrc1, id_src2->imm, num);\
-  printf("load %lx addr %lx offset %lx\n",*ddest, *dsrc1, id_src2->imm);\
 }\
 
 #define def_EHelper_load_singed(name, num) def_EHelper(name) {\
   rtl_lms(s, ddest, dsrc1, id_src2->imm, num);\
-  printf("load %lx addr %lx offset %lx\n",*ddest, *dsrc1, id_src2->imm);\
 }\
 
 def_EHelper_load_unsinged(ld, 8) 

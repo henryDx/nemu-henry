@@ -70,7 +70,15 @@ def_EHelper_compute_reg(divuw)
 def_EHelper_compute_reg(remw)
 def_EHelper_compute_reg(remuw)
 def_EHelper_compute_reg_imm(subw)
-def_EHelper_compute_reg_imm(sllw)
+
 def_EHelper_compute_reg_imm(srlw)
 def_EHelper_compute_reg_imm(sraw)
+
+def_EHelper(sllw) {
+  rtl_sll(s, ddest, dsrc1, dsrc2);
+}
+
+def_EHelper(sllwi) {
+  rtl_slli(s, ddest, dsrc1, id_src2->imm);
+}
 

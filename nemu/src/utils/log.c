@@ -19,7 +19,7 @@ void init_elf(const char *elf_file) {
     return;
   }
   printf("%s\n",elf_file);
-  FILE *fp = fopen(elf_file, "w");
+  FILE *fp = fopen(elf_file, "r");
   Assert(fp, "Can not open '%s'", elf_file);
   elf_fp = fp;
   Elf64_Ehdr ehdr;

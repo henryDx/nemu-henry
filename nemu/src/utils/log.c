@@ -25,6 +25,7 @@ void init_elf(const char *elf_file) {
   Elf64_Ehdr ehdr;
   int ret = fread(&ehdr, sizeof(Elf64_Ehdr), 1, fp);
   if(!ret){
+    fseek(fp,0,SEEK_END);
     printf("ftell:%lx\n",ftell(fp));
   }
   printf("ehdr_e_shoff:%lx ret:%d\n",ehdr.e_shoff, ret);

@@ -18,10 +18,24 @@ uint64_t g_nr_guest_instr = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 const rtlreg_t rzero = 0;
+
+#ifdef CONFIG_ITRACE_RINGBUF
+char g_ring_buffer[MAX_RING_BUFFER_SIZE][128];
+#endif
+
 rtlreg_t tmp_reg[4];
 
 void device_update();
 void fetch_decode(Decode *s, vaddr_t pc);
+
+#ifdef CONFIG_ITRACE_RINGBUF
+  void print_ring_buffer(){
+    int ringbuf_cnt = g_nr_guest_instr > MAX_RING_BUFFER_SIZE ? MAX_RING_BUFFER_SIZE : g_nr_guest_instr;
+    for(int i=0;i<ringbuf_cnt;i++){
+      log_write("%s\n", g_ring_buffer[i]);
+    }
+  }
+#endif
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
@@ -29,7 +43,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 
 #ifdef CONFIG_ITRACE_RINGBUF
-  if (!(g_nr_guest_instr % MAX_RING_BUFFER_SIZE)) log_seek_to_begin();
+  strcpy(g_ring_buffer[g_nr_guest_instr%MAX_RING_BUFFER_SIZE], _this->logbuf);
 #endif
 
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
@@ -124,6 +138,9 @@ void cpu_exec(uint64_t n) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
     case NEMU_END: case NEMU_ABORT:
+      #ifdef CONFIG_ITRACE_RINGBUF
+        print_ring_buffer();
+      #endif
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ASNI_FMT("ABORT", ASNI_FG_RED) :
            (nemu_state.halt_ret == 0 ? ASNI_FMT("HIT GOOD TRAP", ASNI_FG_GREEN) :

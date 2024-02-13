@@ -28,8 +28,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (ITRACE_COND) log_write("%s\n", _this->logbuf);
 #endif
 
-#ifdef CONFIG_IRINGBUF_COND
-  log_write("%s\n", _this->logbuf);
+#ifdef CONFIG_ITRACE_RINGBUF
+  if (!(g_nr_guest_instr % MAX_RING_BUFFER_SIZE)) log_seek_to_begin();
 #endif
 
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }

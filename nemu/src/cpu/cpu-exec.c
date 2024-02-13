@@ -33,7 +33,13 @@ void fetch_decode(Decode *s, vaddr_t pc);
     int ringbuf_cnt = g_nr_guest_instr > MAX_RING_BUFFER_SIZE ? MAX_RING_BUFFER_SIZE : g_nr_guest_instr;
     log_write("Ring buffer cnt: %d\n", ringbuf_cnt);
     for(int i=0;i<ringbuf_cnt;i++){
-      log_write("%s\n", g_ring_buffer[i]);
+      if(g_nr_guest_instr%MAX_RING_BUFFER_SIZE==i){
+        log_write("%s (current)\n", g_ring_buffer[i]);
+      }
+      else{
+        log_write("%s\n", g_ring_buffer[i]);
+      }
+      
     }
   }
 #endif

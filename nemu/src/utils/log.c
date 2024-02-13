@@ -23,7 +23,9 @@ void init_elf(const char *elf_file) {
   Assert(fp, "Can not open '%s'", elf_file);
   elf_fp = fp;
   Elf64_Ehdr ehdr;
-  assert(fread(&ehdr, sizeof(Elf64_Ehdr), 1, fp));
+  if(fread(&ehdr, sizeof(Elf64_Ehdr), 1, fp)<1){
+    printf("ehdr_e_shoff:%lx\n",ehdr.e_shoff);
+  }
   fseek(fp, ehdr.e_shoff, SEEK_SET);
   Elf64_Shdr shdr;
   for(int i=0;i<ehdr.e_shnum;i++){

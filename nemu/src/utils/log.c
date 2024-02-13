@@ -34,7 +34,7 @@ void init_elf(const char *elf_file) {
     }
   }
   assert(shdr.sh_type == SHT_SYMTAB);
-  printf("table items:%ld\n",shdr.sh_size/sizeof(Elf64_Sym));
+  printf("table size:%ld, item size:%ld\n",shdr.sh_size, sizeof(Elf64_Sym));
 }
 
 bool log_enable() {

@@ -10,7 +10,7 @@ void init_difftest(char *ref_so_file, long img_size, int port);
 void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
-
+#ifdef CONFIG_VERIFY_EXPR
 static void verify_expr(){
 	FILE *fd = fopen("/home/henry/Desktop/ics2021/nemu/input", "r");
 	if(fd ==NULL){
@@ -34,6 +34,7 @@ static void verify_expr(){
 	}
 	printf("err:%d total:%d\n",err_cnt, cnt);
 }
+#endif
 
 static void welcome() {
   Log("Trace: %s", MUXDEF(CONFIG_TRACE, ASNI_FMT("ON", ASNI_FG_GREEN), ASNI_FMT("OFF", ASNI_FG_RED)));
@@ -145,7 +146,7 @@ void init_monitor(int argc, char *argv[]) {
     MUXDEF(CONFIG_ISA_riscv32, "riscv32",
     MUXDEF(CONFIG_ISA_riscv64, "riscv64", "bad")))) "-pc-linux-gnu"
   ));
-  verify_expr();
+  IFDEF(CONFIG_VERIFY_EXPR, verify_expr());
   /* Display welcome message. */
   welcome();
 }

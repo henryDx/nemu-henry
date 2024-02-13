@@ -1,7 +1,8 @@
 #include <common.h>
-
+#include <elf.h>
 extern uint64_t g_nr_guest_instr;
 FILE *log_fp = NULL;
+FILE *elf_fp = NULL;
 
 void init_log(const char *log_file) {
   log_fp = stdout;
@@ -11,6 +12,26 @@ void init_log(const char *log_file) {
     log_fp = fp;
   }
   Log("Log is written to %s", log_file ? log_file : "stdout");
+}
+
+void init_elf(const char *elf_file) {
+  if (elf_file == NULL) {
+    return;
+  }
+  FILE *fp = fopen(elf_file, "w");
+  Assert(fp, "Can not open '%s'", elf_file);
+  elf_fp = fp;
+  Elf64_Ehdr ehdr;
+  assert(fread(&ehdr, sizeof(Elf64_Ehdr), 1, fp));
+  fseek(fp, ehdr.e_shoff, SEEK_SET);
+  Elf64_Shdr shdr;
+  for(int i=0;i<ehdr.e_shnum;i++){
+    assert(fread(&shdr, sizeof(Elf64_Shdr), 1, fp));
+    if(shdr.sh_type == SHT_SYMTAB){
+      break;
+    }
+  }
+  assert(shdr.sh_type == SHT_SYMTAB);
 }
 
 bool log_enable() {

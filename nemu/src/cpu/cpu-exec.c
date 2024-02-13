@@ -19,6 +19,7 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 const rtlreg_t rzero = 0;
 
+
 #ifdef CONFIG_ITRACE_RINGBUF
 char g_ring_buffer[MAX_RING_BUFFER_SIZE][128];
 #endif

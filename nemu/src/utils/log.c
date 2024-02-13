@@ -29,6 +29,7 @@ void init_elf(const char *elf_file) {
   for(int i=0;i<ehdr.e_shnum;i++){
     assert(fread(&shdr, sizeof(Elf64_Shdr), 1, fp));
     if(shdr.sh_type == SHT_SYMTAB){
+      printf("index:%d\n",i);
       break;
     }
   }

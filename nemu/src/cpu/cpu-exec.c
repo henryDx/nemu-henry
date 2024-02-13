@@ -40,7 +40,7 @@ void fetch_decode(Decode *s, vaddr_t pc);
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-  if (ITRACE_COND) log_write("%s\n", _this->logbuf);
+  if (ITRACE_COND && !CONFIG_ITRACE_RINGBUF) log_write("%s\n", _this->logbuf);
 #endif
 
 #ifdef CONFIG_ITRACE_RINGBUF

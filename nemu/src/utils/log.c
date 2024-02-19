@@ -25,23 +25,30 @@ void init_elf(const char *elf_file) {
   Elf64_Ehdr ehdr;
   assert(fread(&ehdr, sizeof(Elf64_Ehdr), 1, fp));
   fseek(fp, ehdr.e_shoff, SEEK_SET);
-  Elf64_Shdr shdr;
+  Elf64_Shdr sym_shdr;
+  Elf64_Shdr str_shdr;
   for(int i=0;i<ehdr.e_shnum;i++){
+    Elf64_Shdr shdr;
     assert(fread(&shdr, sizeof(Elf64_Shdr), 1, fp));
     if(shdr.sh_type == SHT_SYMTAB){
-      //printf("index:%d\n",i);
-      break;
+      sym_shdr = shdr;
+    }
+    if(shdr.sh_type == SHT_STRTAB){
+      str_shdr = shdr;
     }
   }
-  assert(shdr.sh_type == SHT_SYMTAB);
-  int item_cnt = shdr.sh_size/sizeof(Elf64_Sym);
-  printf("table size:%ld, item size:%ld\n",shdr.sh_size, sizeof(Elf64_Sym));
-  fseek(fp, shdr.sh_offset, SEEK_SET);
-  for(int i=0;i<item_cnt;i++){
-    Elf64_Sym sym;
-    assert(fread(&sym, sizeof(Elf64_Sym), 1, fp));
-    printf("value:%ld size:%ld \n",sym.st_value,sym.st_size);
-  }
+
+  assert(sym_shdr.sh_type == SHT_SYMTAB);
+  int item_cnt = sym_shdr.sh_size/sizeof(Elf64_Sym);
+  printf("table size:%ld, item size:%ld\n",sym_shdr.sh_size, sizeof(Elf64_Sym));
+  fseek(fp, sym_shdr.sh_offset, SEEK_SET);
+
+  assert(str_shdr.sh_type == SHT_STRTAB);
+  int str_cnt = sym_shdr.sh_size/sizeof(Elf64_Sym);
+  printf("table size:%ld, item size:%ld\n",sym_shdr.sh_size, sizeof(Elf64_Sym));
+  fseek(fp, sym_shdr.sh_offset, SEEK_SET);
+
+
 }
 
 bool log_enable() {
